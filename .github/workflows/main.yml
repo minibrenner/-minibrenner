@@ -1,0 +1,37 @@
+name: Generate Snake Animation
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # roda todo dia à meia-noite UTC
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: minibrenner
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+
+      - name: Commit e push
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: github-actions
+          author_email: github-actions@github.com
+          message: "Atualizando animação da cobrinha"
+          add: "dist/github-contribution-grid-snake.svg"
+
+      - name: Enviar imagem para o branch `output`
+        run: |
+          git fetch origin
+          git switch --orphan output
+          git reset
+          mv dist/github-contribution-grid-snake.svg .
+          git add github-contribution-grid-snake.svg
+          git commit -m "snake svg"
+          git push --force origin output
