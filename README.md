@@ -25,3 +25,4 @@
 </div>
 
 ![Snake animation](https://github.com/minibrenner/minibrenner/raw/output/github-contribution-grid-snake.svg)
+
